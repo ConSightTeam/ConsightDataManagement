@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "outDir": "./dist",
+        "allowJs": true,
+        "target": "es2018",
+        "lib": ["es2018"],
+        "baseUrl": ".",
+        "paths": {
+            "*": [
+                "node_modules/*"
+            ]
+        }
+    },
+    "include": [
+        "./**/*"
+    ]
+}
