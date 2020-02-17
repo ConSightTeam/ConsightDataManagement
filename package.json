@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node ./dist/bin/www.js",
     "compile": "tsc",
-    "build": "tsc && cp -r ./src/public ./dist/ && cp -r ./src/views ./dist/"
+    "build": "gulp"
   },
   "dependencies": {
     "@types/express": "^4.17.2",
@@ -24,6 +24,9 @@
   "devDependencies": {
     "acorn": "^7.1.0",
     "eslint": "^6.8.0",
+    "gulp": "^4.0.2",
+    "gulp-csso": "^4.0.1",
+    "gulp-typescript": "^6.0.0-alpha.1",
     "typescript": "^3.7.5"
   }
 }
