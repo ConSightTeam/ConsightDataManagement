@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./dist/bin/www.js",
-    "compile": "tsc"
+    "compile": "tsc",
+    "build": "tsc && cp -r ./src/public ./dist/ && cp -r ./src/views ./dist/"
   },
   "dependencies": {
     "@types/express": "^4.17.2",
