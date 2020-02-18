@@ -26,6 +26,7 @@
     "eslint": "^6.8.0",
     "gulp": "^4.0.2",
     "gulp-csso": "^4.0.1",
+    "gulp-install": "^1.1.0",
     "gulp-typescript": "^6.0.0-alpha.1",
     "typescript": "^3.7.5"
   }
