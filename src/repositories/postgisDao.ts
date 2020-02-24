@@ -7,17 +7,26 @@ export class DataPointRepository {
         this.db = new Client();
     }
 
-    async insertOne(node_uuid: string, geo: object, data: object) {
+    async insertOne(node_uuid: string, locationX: number, locationY: number, data: object) {
         await this.db.connect();
-        let result = await this.db.query('INSERT INTO data_point (node, data, location, inserted_on) VALUES ($1, $2, $3, NOW())', [node_uuid, JSON.stringify(data), geo]);
+        let result = await this.db.query('INSERT INTO data_point (node, data, location, inserted_on) VALUES ($1, $2, $3, NOW())', 
+                                         [node_uuid, JSON.stringify(data), this.constructGeoJsonPoint(locationX, locationY)]);
         await this.db.end();
         return result.rowCount > 0;
     }
 
     async insertOneWithoutLocation(node_uuid: string, data: object) {
         await this.db.connect();
-        let result = await this.db.query('INSERT INTO data_point (node, data, location, inserted_on) VALUES ($1, $2, (SELECT location From node WHERE uuid = $1), NOW())', [node_uuid, JSON.stringify(data)]);
+        let result = await this.db.query('INSERT INTO data_point (node, data, location, inserted_on) VALUES ($1, $2, (SELECT location From node WHERE uuid = $1), NOW())', 
+                                         [node_uuid, JSON.stringify(data)]);
         await this.db.end();
         return result.rowCount > 0;
+    }
+
+    private constructGeoJsonPoint(x: number, y: number) {
+        return {
+            "type": "Point",
+            "coordinates": [x, y]
+        }
     }
 }
