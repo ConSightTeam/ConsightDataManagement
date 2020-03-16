@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { DataPointRepository } from "../repositories/postgisDao";
-import { parse } from "querystring";
 var express = require('express');
 var router = express.Router();
 

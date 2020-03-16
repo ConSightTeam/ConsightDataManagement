@@ -13,8 +13,8 @@ function transpile() {
         .js.pipe(gulp.dest(PROD_DEST));
 };
 
-function copyPug() {
-    return gulp.src('src/views/*.pug')
+function copyHandlebars() {
+    return gulp.src('src/views/**/*.handlebars')
         .pipe(gulp.dest(PROD_DEST + '/views'));
 }
 
@@ -34,6 +34,6 @@ function copyDependency() {
 
 exports.transpile = transpile;
 exports.css = css;
-exports.copyPug = copyPug;
+exports.copyHandlebars = copyHandlebars;
 exports.copyDependency = copyDependency;
-exports.default = gulp.parallel(transpile, copyPug, css, copyDependency);
+exports.default = gulp.parallel(transpile, copyHandlebars, css, copyDependency);
