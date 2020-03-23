@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { DataPointRepository } from "../repositories/postgisDao";
+import { DataPointRepository } from "../repositories/dataPointRepository";
 var express = require('express');
 var router = express.Router();
 
@@ -19,7 +19,10 @@ router.post('/', async function(req: Request, res: Response) {
             success = await dao.insertOneWithoutLocation(req.body['uuid'], req.body['data']);
         }
     } catch (err) {
+        console.error("Request: " + JSON.stringify(req.body));
+        console.error(err.message);
         res.status(500).end(err.messenge);
+        return;
     }
     if (success) {
         res.sendStatus(201);

@@ -9,7 +9,7 @@ export class DataPointRepository {
 
     async insertOne(node_uuid: string, locationX: number, locationY: number, data: object) {
         await this.db.connect();
-        let result = await this.db.query('INSERT INTO data_point (node, data, location, inserted_on) VALUES ($1, $2, $3, NOW())', 
+        let result = await this.db.query('INSERT INTO data_point (node, data, location, inserted_on) VALUES ($1, $2, ST_GeomFromGeoJSON($3), NOW())', 
                                          [node_uuid, JSON.stringify(data), this.constructGeoJsonPoint(locationX, locationY)]);
         await this.db.end();
         return result.rowCount > 0;

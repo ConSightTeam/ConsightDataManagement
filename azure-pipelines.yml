@@ -12,10 +12,10 @@ variables:
   azureSubscription: '9e563f3d-a07f-4c2e-9b34-259f3cb66a39'
   
   # Web app name
-  webAppName: 'iot-plat-data-management'
+  webAppName: 'iotplatdatamanagement'
   
   # Environment name
-  environmentName: 'iot-plat-data-management'
+  environmentName: 'iotplatdatamanagement'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -63,7 +63,7 @@ stages:
         deploy:
           steps:            
           - task: AzureWebApp@1
-            displayName: 'Azure Web App Deploy: iot-plat-data-management'
+            displayName: 'Azure Web App Deploy: iotplatdatamanagement'
             inputs:
               azureSubscription: $(azureSubscription)
               appType: webAppLinux
