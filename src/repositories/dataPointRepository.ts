@@ -7,7 +7,7 @@ export class DataPointRepository {
         this.db = new Client();
     }
 
-    async insertOne(node_uuid: string, locationX: number, locationY: number, data: object) {
+    async insertOne(node_uuid: string, locationX: number, locationY: number, data: object): Promise<boolean> {
         await this.db.connect();
         let result = await this.db.query('INSERT INTO data_point (node, data, location, inserted_on) VALUES ($1, $2, ST_GeomFromGeoJSON($3), NOW())', 
                                          [node_uuid, JSON.stringify(data), this.constructGeoJsonPoint(locationX, locationY)]);
@@ -15,7 +15,7 @@ export class DataPointRepository {
         return result.rowCount > 0;
     }
 
-    async insertOneWithoutLocation(node_uuid: string, data: object) {
+    async insertOneWithoutLocation(node_uuid: string, data: object): Promise<boolean> {
         await this.db.connect();
         let result = await this.db.query('INSERT INTO data_point (node, data, location, inserted_on) VALUES ($1, $2, (SELECT location From node WHERE uuid = $1), NOW())', 
                                          [node_uuid, JSON.stringify(data)]);

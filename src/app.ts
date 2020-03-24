@@ -9,6 +9,7 @@ import * as exphbs from "express-handlebars";
 
 import * as indexRouter from "./routes/index";
 import * as apiRouter from "./routes/api";
+import * as nodeRouter from "./routes/node"
 
 let app = express();
 let hbs = exphbs.create();
@@ -26,6 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter as express.Router);
 app.use('/api/v1/', apiRouter as express.Router);
+app.use('/node/', nodeRouter as express.Router);
 
 
 module.exports = app;

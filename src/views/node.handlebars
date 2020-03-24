@@ -1,0 +1,19 @@
+<script src="/js/node.js"></script>
+
+<h1>{{title}}</h1>
+
+<form method="POST">
+  <label for="uuid">UUID:</label>
+  <input type="text" id="uuid" name="uuid" value="{{node.uuid}}" {{#if node.uuid}} disabled {{/if}} ><br>
+  <label for="name">Node Name:</label>
+  <input type="text" id="name" name="name" value="{{node.name}}"><br>
+  <input type="radio" id="static" name="node_type" value="static" {{#if node.location}} checked {{/if}} onchange="nodeTypeRadioChanged(this)">
+  <label for="static">Static</label>
+  <input type="radio" id="dynamic" name="node_type" value="dynamic" {{#unless node.location}} checked {{/unless}} onchange="nodeTypeRadioChanged(this)">
+  <label for="dynamic">Dynamic</label><br>
+  <label for="x">X Coordinate:</label>
+  <input type="text" id="x" name="x" value="{{node.location.coordinates.[0]}}" {{#unless node.location}} disabled {{/unless}}><br>
+  <label for="y">Y Coordinate:</label>
+  <input type="text" id="y" name="y" value="{{node.location.coordinates.[1]}}" {{#unless node.location}} disabled {{/unless}}><br>
+  <input type="submit" value="Save">
+</form>

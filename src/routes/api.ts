@@ -9,8 +9,8 @@ router.post('/', async function(req: Request, res: Response) {
     let success: boolean = false;
     try {
         if (haveLocation) {
-            let lat: number = parseInt(req.body['lat']);
-            let long: number = parseInt(req.body['long']);
+            let lat: number = parseFloat(req.body['lat']);
+            let long: number = parseFloat(req.body['long']);
             if (lat == null && long == null) {
                 res.status(400).end({'error': 'Invalid lat or long'});
             }

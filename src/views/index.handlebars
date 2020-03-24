@@ -1,5 +1,7 @@
 <h1>Nodes</h1>
 
+<a href="/node">Register new node</a>
+
 {{#each nodes}}
     <p>UUID: {{this.uuid}}</p>
     <p>Name: {{this.name}}</p>
@@ -11,4 +13,5 @@
     {{else}}
         <p>Type: Dynamic Node</p>
     {{/if}}
+    <a href="./node/{{this.uuid}}">Edit</a>
 {{/each}}
