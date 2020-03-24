@@ -1,1 +1,14 @@
-<h1>Example App: {{ title }}</h1>
+<h1>Nodes</h1>
+
+{{#each nodes}}
+    <p>UUID: {{this.uuid}}</p>
+    <p>Name: {{this.name}}</p>
+    {{#if this.location}}
+        <p>Type: Static Node</p>
+        {{#with this.location}}
+            <p>{{coordinates}}</p>
+        {{/with}}
+    {{else}}
+        <p>Type: Dynamic Node</p>
+    {{/if}}
+{{/each}}

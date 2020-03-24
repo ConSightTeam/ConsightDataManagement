@@ -9,6 +9,16 @@ export class NodeRepository {
     }
 
     async getAll(): Promise<Node[]> {
-        return null;
+        await this.db.connect();
+        let queryResult = await this.db.query('SELECT uuid, name, ST_ASGeoJson(location) AS location FROM node;');
+        await this.db.end();
+        let result: Array<Node> = [];
+        queryResult.rows.forEach(element => {
+            let location: Geometry = JSON.parse(element.location) as Geometry;
+            element.location = location;
+            result.push(element as Node);
+        });
+        console.log(result);
+        return result;
     }
 }
