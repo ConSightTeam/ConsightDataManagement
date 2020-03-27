@@ -35,4 +35,16 @@ router.post('/:uuid', function(req: Request, res: Response) {
   res.redirect('/');
 });
 
+router.get('/:uuid/delete', async function(req: Request, res: Response) {
+  let dao = new NodeRepository();
+  let node = await dao.get(req.params['uuid']);
+  let delete_detail = node.name + ' (' + node.uuid + ')'; 
+  res.render('delete_confirmation', { delete_detail: delete_detail, back_url: '/' });
+});
+
+router.post('/:uuid/delete', async function(req: Request, res: Response) {
+  (new NodeRepository()).deleteOne(req.params['uuid']);
+  res.redirect('/');
+});
+
 module.exports = router;

@@ -65,6 +65,13 @@ export class NodeRepository {
         return result.rowCount > 0;
     }
 
+    async deleteOne(uuid: string){
+        await this.db.connect();
+        let result = await this.db.query('DELETE FROM node WHERE uuid = $1', [uuid]);
+        await this.db.end();
+        return result.rowCount > 0;
+    }
+
     private constructGeoJsonPoint(x: number, y: number) {
         return {
             "type": "Point",
