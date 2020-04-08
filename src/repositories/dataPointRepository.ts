@@ -23,6 +23,39 @@ export class DataPointRepository {
         return result.rowCount > 0;
     }
 
+    async getTotal(node_uuid: string): Promise<string> {
+        await this.db.connect();
+        let result = await this.db.query('SELECT COUNT(*) FROM data_point WHERE node=$1', [node_uuid]);
+        await this.db.end();
+        return result.rows['count'];
+    }
+
+    async getMutiples(page: number, node_uuid: string) {
+        await this.db.connect()
+        let queryResult = await this.db.query(
+            'SELECT data_point.id, ST_ASGeoJson(data_point.location) AS location, data_point.data, data_point.node, data_point.inserted_on \
+             FROM data_point \
+             WHERE node = $1 \
+             ORDER BY node, inserted_on DESC \
+             OFFSET $2 \
+             LIMIT 10', [node_uuid, page * 10]);
+        await this.db.end();
+        let result: Array<DataPoint> = [];
+        queryResult.rows.forEach(element => {
+            let location: Geometry = JSON.parse(element.location) as Geometry;
+            element.location = location;
+            result.push(element as DataPoint)
+        });
+        return result;
+    }
+
+    public async deleteOne(id: number): Promise<boolean> {
+        await this.db.connect();
+        let result = await this.db.query('DELETE FROM data_point WHERE id = $1', [id]);
+        await this.db.end();
+        return result.rowCount > 0;
+    }
+
     private constructGeoJsonPoint(x: number, y: number) {
         return {
             "type": "Point",

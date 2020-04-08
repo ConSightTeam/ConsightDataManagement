@@ -1,0 +1,15 @@
+<h1>Data Points</h1>
+
+{{#if data_points}}
+    {{#each data_points}}
+        <p>ID: {{this.id}}</p>
+        <p>Data: {{ toJSON this.data }}</p>
+        <p>Inserted On: {{this.inserted_on}}</p>
+        <a href="/data_point/{{../node_uuid}}/{{this.id}}/delete">Delete</a>
+    {{/each}}
+
+    <form method="GET">
+        <p>Page <input type="number" id="page-select" name="page-select" value="{{current_page}}"> of {{total_page}}</p>
+        <button type="submit">Go</button>
+    </form>
+{{/if}}
