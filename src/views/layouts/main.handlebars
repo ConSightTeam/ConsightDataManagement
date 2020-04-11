@@ -5,8 +5,14 @@
     <title>Administration Website</title>
 </head>
 <body>
- 
+    {{#if user}}
+        <p>Welcome {{user.username}}!</p>
+        <a href="/logout">Logout</a>
+    {{else}}
+        <a href="/login">Login</a>
+    {{/if}}
+
     {{{body}}}
- 
+    
 </body>
 </html>

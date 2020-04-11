@@ -1,7 +1,7 @@
 import { Client } from 'pg'
 
 export class DataPointRepository {
-    db: Client
+    db: Client;
 
     constructor() {
         this.db = new Client();
@@ -49,9 +49,9 @@ export class DataPointRepository {
         return result;
     }
 
-    public async deleteOne(id: number): Promise<boolean> {
+    public async deleteOne(id: number, owner_id: number): Promise<boolean> {
         await this.db.connect();
-        let result = await this.db.query('DELETE FROM data_point WHERE id = $1', [id]);
+        let result = await this.db.query('DELETE FROM data_point WHERE data_point.id = $1 AND (SELECT (data_point.node = node.uuid) FROM node WHERE node.owner = $2)', [id, owner_id]);
         await this.db.end();
         return result.rowCount > 0;
     }

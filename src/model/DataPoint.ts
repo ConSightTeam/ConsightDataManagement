@@ -1,5 +1,5 @@
 class DataPoint {
-    id: number;
+    id: string;
     location: Geometry;
     data: object;
     insertedOn: Date;

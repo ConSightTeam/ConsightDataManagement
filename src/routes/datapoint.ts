@@ -1,12 +1,16 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { Router } from "express";
 import { DataPointRepository } from "../repositories/dataPointRepository";
+import { isLoggedIn } from "../middleware/isLoggedIn";
+import { User } from "../model/User";
 
 var router = Router();
 
+router.use(isLoggedIn);
+
 router.get('/:node_uuid', async function(req: Request, res: Response) {
     let node_uuid = req.params['node_uuid'];
-    let page: number = parseInt(req.query['page-select']) || 1;
+    let page: number = parseInt(req.query['page-select'] as string) || 1;
     let dao1 = new DataPointRepository();
     let dao2 = new DataPointRepository();
     res.render('datapoint_list', { 
@@ -25,7 +29,7 @@ router.get('/:node_uuid/:id/delete', async function(req: Request, res: Response)
 router.post('/:node_uuid/:id/delete', async function(req: Request, res: Response) {
     let node_uuid = req.params['node_uuid'];
     let id = req.params['id'];
-    (new DataPointRepository()).deleteOne(parseInt(id));
+    (new DataPointRepository()).deleteOne(parseInt(id), (req.user as User).id);
     res.redirect('/data_point/' + node_uuid);
 });
 
