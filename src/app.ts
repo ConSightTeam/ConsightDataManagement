@@ -21,6 +21,7 @@ import * as loginRouter from "./routes/login"
 import * as logoutRouter from "./routes/logout"
 import * as registerRouter from "./routes/register"
 import session = require("express-session");
+import { checkToken } from "./middleware/manageToken";
 
 let SECRET: string = process.env['SECRET'];
 
@@ -36,7 +37,7 @@ let hbs = exphbs.create({
 // passport setup
 passport.use(new LocalStrategy(async function(username: string, password: string, done) {
     let dao = new UserRepository();
-    let user;
+    let user: User;
     try {
         user = await dao.get(username, password);
         if (!user) {
@@ -77,7 +78,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/', indexRouter as express.Router);
-app.use('/api/v1/', apiRouter as express.Router);
+app.use('/api/v1/', checkToken, apiRouter as express.Router);
 app.use('/node/', nodeRouter as express.Router);
 app.use('/data_point/', dataPointRouter as express.Router);
 app.use('/login', loginRouter as express.Router);
