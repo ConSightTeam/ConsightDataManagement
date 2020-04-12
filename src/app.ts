@@ -1,14 +1,12 @@
-import { Request, Response } from "express";
-
-var createError = require('http-errors');
 import * as express from "express";
 import * as path from "path";
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+import * as cookieParser from "cookie-parser";
+import * as logger from "morgan";
 import * as exphbs from "express-handlebars";
+import * as session from "express-session";
 
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
+import * as passport from 'passport';
+import { Strategy as LocalStrategy } from "passport-local";
 
 import { UserRepository } from "./repositories/userRepository";
 import { User } from "./model/User";
@@ -20,8 +18,9 @@ import * as dataPointRouter from "./routes/datapoint";
 import * as loginRouter from "./routes/login"
 import * as logoutRouter from "./routes/logout"
 import * as registerRouter from "./routes/register"
-import session = require("express-session");
+
 import { checkToken } from "./middleware/manageToken";
+
 
 let SECRET: string = process.env['SECRET'];
 
