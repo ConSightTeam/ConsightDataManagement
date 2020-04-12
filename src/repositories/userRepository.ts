@@ -23,7 +23,7 @@ export class UserRepository {
 
     async get(username: string, password: string): Promise<User> {
         await this.db.connect();
-        let result = await this.db.query('SELECT id, username, hashed_password FROM public.user WHERE username = $1', [username]);
+        let result = await this.db.query('SELECT id, username, hashed_password FROM public.user WHERE LOWER(username) = LOWER($1)', [username]);
         await this.db.end();
 
         if (result.rowCount > 0 && await bcrypt.compare(password, result.rows[0]['hashed_password'])) {
