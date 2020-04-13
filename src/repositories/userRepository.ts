@@ -44,4 +44,18 @@ export class UserRepository {
         await this.db.end();
         return result.rowCount > 0;
     }
+
+    async getOrRegisterOAuth(provider: string , oauth_id: string, username: string): Promise<User> {
+        await this.db.connect();
+        await this.db.query('INSERT INTO public.user (' + provider + '_id, username) VALUES ($1, $2) ON CONFLICT DO NOTHING;', 
+            [oauth_id, username]);
+        let result = await this.db.query('SELECT id, username FROM public.user WHERE ' + provider + '_id = $1', [oauth_id]);
+        await this.db.end()
+        
+        if (result.rowCount > 0) {
+            return result.rows[0] as User;
+        } else {
+            return null;
+        }
+    }
 }

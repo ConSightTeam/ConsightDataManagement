@@ -6,10 +6,6 @@ import * as exphbs from "express-handlebars";
 import * as session from "express-session";
 
 import * as passport from 'passport';
-import { Strategy as LocalStrategy } from "passport-local";
-
-import { UserRepository } from "./repositories/userRepository";
-import { User } from "./model/User";
 
 import * as indexRouter from "./routes/index";
 import * as apiRouter from "./routes/api";
@@ -20,6 +16,7 @@ import * as logoutRouter from "./routes/logout"
 import * as registerRouter from "./routes/register"
 
 import { checkToken } from "./middleware/manageToken";
+import { setup_authentication } from "./helper/authentication";
 
 
 let SECRET: string = process.env['SECRET'];
@@ -34,33 +31,7 @@ let hbs = exphbs.create({
 });
 
 // passport setup
-passport.use(new LocalStrategy(async function(username: string, password: string, done) {
-    let dao = new UserRepository();
-    let user: User;
-    try {
-        user = await dao.get(username, password);
-        if (!user) {
-            return done(null, false, {message: "Username or password does not match"});
-        }
-    } catch (e) {
-        done(e);
-    }
-
-    return done(null, user);
-}));
-
-passport.serializeUser(function(user: User, done) {
-    done(null, user.id);
-  });
-  
-passport.deserializeUser(async function(id: number, done) {
-    let dao = new UserRepository();
-    try {
-        done(null, await dao.getByID(id));
-    } catch (e) {
-        done(e);
-    }
-});
+setup_authentication(passport);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

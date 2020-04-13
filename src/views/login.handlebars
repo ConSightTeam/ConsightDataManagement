@@ -1,6 +1,14 @@
 <h1>Login</h1>
 
 <form method="post">
+    {{#if github_enabled}}
+        <a href="/login/github">Login with Github</a>
+    {{/if}}
+
+    {{#if google_enabled}}
+        <a href="/login/google">Login with Google</a>
+    {{/if}}
+
     <div>
         <label>Username:</label>
         <input type="text" name="username"/>
