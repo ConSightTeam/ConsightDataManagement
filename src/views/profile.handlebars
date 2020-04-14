@@ -1,0 +1,20 @@
+<h1>Profile</h1>
+
+<p>ID: {{ current_user.id }}</p>
+<p>Username: {{ current_user.username }}</p>
+
+{{#if github_enabled}}
+    {{#unless current_user.github_id}}
+        <a href="/login/github">Link Github</a>
+    {{else}}
+        <p>Linked to Github</p>
+    {{/unless}}
+{{/if}}
+
+{{#if google_enabled}}
+    {{#unless current_user.google_id}}
+        <a href="/login/google">Link Google</a>
+    {{else}}
+        <p>Linked to Google</p>
+    {{/unless}}
+{{/if}}

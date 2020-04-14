@@ -1,4 +1,5 @@
 import { PassportStatic } from "passport";
+import { Request } from "express";
 import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as GithubStrategy } from "passport-github2";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
@@ -24,41 +25,41 @@ export class AuthenticationSettings {
         this.root_url = process.env['ROOT_URL'];
     }
 
-    public get github_enabled() : boolean {
+    public get github_enabled(): boolean {
         return (this.github_client_id != null) && (this.github_secret != null);
     }
 
-    public get github_callback() : string {
+    public get github_callback(): string {
         return this.root_url + 'login/github/callback';
     }
-    
-    public get google_enabled() : boolean {
+
+    public get google_enabled(): boolean {
         return (this.google_client_id != null) && (this.google_secret != null);
     }
 
-    
-    public get google_callback() : string {
+
+    public get google_callback(): string {
         return this.root_url + 'login/google/callback';
     }
-    
+
 }
 
 export function setup_authentication(passport: PassportStatic): void {
     let authentication_settings = new AuthenticationSettings();
 
     // Local Setup
-    passport.use(new LocalStrategy(async function(username: string, password: string, done) {
+    passport.use(new LocalStrategy(async function (username: string, password: string, done) {
         let dao = new UserRepository();
         let user: User;
         try {
             user = await dao.get(username, password);
             if (!user) {
-                return done(null, false, {message: "Username or password does not match"});
+                return done(null, false, { message: "Username or password does not match" });
             }
         } catch (e) {
             done(e);
         }
-    
+
         return done(null, user);
     }));
 
@@ -67,19 +68,33 @@ export function setup_authentication(passport: PassportStatic): void {
         passport.use(new GithubStrategy({
             clientID: authentication_settings.github_client_id,
             clientSecret: authentication_settings.github_secret,
-            callbackURL: authentication_settings.github_callback
-        }, async function(accessToken, refreshToken, profile, done) {
+            callbackURL: authentication_settings.github_callback,
+            passReqToCallback: true
+        }, async function (req: Request, accessToken, refreshToken, profile, done) {
             let dao = new UserRepository();
-            let user: User;
-            try {
-                user = await dao.getOrRegisterOAuth('github', profile.id, profile.username);
-                if (!user) {
-                    return done(null, false, {message: "Fail to create or retrive github account"});
+            let user: User = req.user as User;
+
+            if (user) { // Logged in, link to account
+                user.github_id = profile.id;
+                try {
+                    let result: boolean = await dao.update(user);
+                    if (!result) {
+                        return done(null, false, { message: "Fail to link github account" });
+                    }
+                } catch (e) {
+                    return done(e);
                 }
-            } catch (e) {
-                done(e);
+            } else { // Not Logged in, create new account or login
+                try {
+                    user = await dao.getOrRegisterOAuth('github', profile.id, profile.username);
+                    if (!user) {
+                        return done(null, false, { message: "Fail to create or retrive github account" });
+                    }
+                } catch (e) {
+                    return done(e);
+                }
             }
-        
+
             return done(null, user);
         }));
     }
@@ -89,28 +104,42 @@ export function setup_authentication(passport: PassportStatic): void {
         passport.use(new GoogleStrategy({
             clientID: authentication_settings.google_client_id,
             clientSecret: authentication_settings.google_secret,
-            callbackURL: authentication_settings.google_callback
-        }, async function(accessToken, refreshToken, profile, done) {
+            callbackURL: authentication_settings.google_callback,
+            passReqToCallback: true
+        }, async function (req: Request, accessToken, refreshToken, profile, done) {
             let dao = new UserRepository();
-            let user: User;
-            try {
-                user = await dao.getOrRegisterOAuth('google', profile.id, profile.username);
-                if (!user) {
-                    return done(null, false, {message: "Fail to create or retrive google account"});
+            let user: User = req.user as User;
+
+            if (user) { // Logged in, link to account
+                user.google_id = profile.id;
+                try {
+                    let result: boolean = await dao.update(user);
+                    if (!result) {
+                        return done(null, false, { message: "Fail to link google account" });
+                    }
+                } catch (e) {
+                    return done(e);
                 }
-            } catch (e) {
-                done(e);
+            } else { // Not Logged in, create new account or login
+                try {
+                    user = await dao.getOrRegisterOAuth('google', profile.id, profile.username);
+                    if (!user) {
+                        return done(null, false, { message: "Fail to create or retrive google account" });
+                    }
+                } catch (e) {
+                    return done(e);
+                }
             }
-        
+
             return done(null, user);
         }));
     }
-    
-    passport.serializeUser(function(user: User, done) {
+
+    passport.serializeUser(function (user: User, done) {
         done(null, user.id);
-      });
-      
-    passport.deserializeUser(async function(id: number, done) {
+    });
+
+    passport.deserializeUser(async function (id: number, done) {
         let dao = new UserRepository();
         try {
             done(null, await dao.getByID(id));

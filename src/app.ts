@@ -11,9 +11,10 @@ import * as indexRouter from "./routes/index";
 import * as apiRouter from "./routes/api";
 import * as nodeRouter from "./routes/node";
 import * as dataPointRouter from "./routes/datapoint";
-import * as loginRouter from "./routes/login"
-import * as logoutRouter from "./routes/logout"
-import * as registerRouter from "./routes/register"
+import * as loginRouter from "./routes/login";
+import * as logoutRouter from "./routes/logout";
+import * as registerRouter from "./routes/register";
+import * as profileRouter from "./routes/profile";
 
 import { checkToken } from "./middleware/manageToken";
 import { setup_authentication } from "./helper/authentication";
@@ -54,5 +55,6 @@ app.use('/data_point/', dataPointRouter as express.Router);
 app.use('/login', loginRouter as express.Router);
 app.use('/logout', logoutRouter as express.Router);
 app.use('/register', registerRouter as express.Router);
+app.use('/profile', profileRouter as express.Router);
 
 module.exports = app;
