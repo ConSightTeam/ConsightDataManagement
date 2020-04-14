@@ -15,7 +15,6 @@ router.get('/', function(req: Request, res: Response) {
 
 router.post('/', function(req: Request, res: Response) {
   let dao = new NodeRepository((req.user as User).id);
-  console.log(req.body);
   if (req.body['node_type'] === 'static') {
     dao.insertOneWithLocation(req.body['uuid'], req.body['name'], parseFloat(req.body['x']), parseFloat(req.body['y']));
   } else {
@@ -31,7 +30,6 @@ router.get('/:uuid', async function(req: Request, res: Response) {
 
 router.post('/:uuid', function(req: Request, res: Response) {
   let dao = new NodeRepository((req.user as User).id);
-  console.log(req.body);
   if (req.body['node_type'] === 'static') {
     dao.updateOneWithLocation(req.params['uuid'], req.body['name'], parseFloat(req.body['x']), parseFloat(req.body['y']));
   } else {

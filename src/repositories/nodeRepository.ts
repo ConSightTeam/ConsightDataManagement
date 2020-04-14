@@ -22,7 +22,6 @@ export class NodeRepository {
             }
             result.push(element as Node);
         });
-        console.log(result);
         return result;
     }
 
@@ -35,7 +34,6 @@ export class NodeRepository {
             let location: Geometry = JSON.parse(result.location) as Geometry;
             result.location = location;
         }
-        console.log(result);
         return result as Node;
     }
 
