@@ -11,6 +11,7 @@ router.get('/', function(req: Request, res: Response) {
 router.post('/', async function(req: Request, res: Response) {
     let username: string = req.body['username'];
     let password: string = req.body['password'];
+    let email: string = req.body['email'];
     let password_confirm: string = req.body['password_confirm'];
 
     if (password != password_confirm) {
@@ -18,7 +19,7 @@ router.post('/', async function(req: Request, res: Response) {
     }
 
     let dao = new UserRepository();
-    dao.register(username, password);
+    dao.register(email, username, password);
 
     res.redirect('/login');
 });

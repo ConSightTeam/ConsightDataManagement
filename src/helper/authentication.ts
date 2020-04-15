@@ -1,4 +1,4 @@
-import { PassportStatic } from "passport";
+import { PassportStatic, Profile } from "passport";
 import { Request } from "express";
 import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as GithubStrategy } from "passport-github2";
@@ -26,7 +26,7 @@ export class AuthenticationSettings {
     }
 
     public get github_enabled(): boolean {
-        return (this.github_client_id != null) && (this.github_secret != null);
+        return (this.root_url != null) && (this.github_client_id != null) && (this.github_secret != null);
     }
 
     public get github_callback(): string {
@@ -34,14 +34,13 @@ export class AuthenticationSettings {
     }
 
     public get google_enabled(): boolean {
-        return (this.google_client_id != null) && (this.google_secret != null);
+        return (this.root_url != null) && (this.google_client_id != null) && (this.google_secret != null);
     }
 
 
     public get google_callback(): string {
         return this.root_url + 'login/google/callback';
     }
-
 }
 
 export function setup_authentication(passport: PassportStatic): void {
@@ -70,7 +69,7 @@ export function setup_authentication(passport: PassportStatic): void {
             clientSecret: authentication_settings.github_secret,
             callbackURL: authentication_settings.github_callback,
             passReqToCallback: true
-        }, async function (req: Request, accessToken, refreshToken, profile, done) {
+        }, async function (req: Request, accessToken, refreshToken, profile: Profile, done) {
             let dao = new UserRepository();
             let user: User = req.user as User;
 
@@ -86,7 +85,7 @@ export function setup_authentication(passport: PassportStatic): void {
                 }
             } else { // Not Logged in, create new account or login
                 try {
-                    user = await dao.getOrRegisterOAuth('github', profile.id, profile.username);
+                    user = await dao.getOrRegisterOAuth('github', profile.id, profile.username, profile.emails[0].value);
                     if (!user) {
                         return done(null, false, { message: "Fail to create or retrive github account" });
                     }
@@ -106,7 +105,7 @@ export function setup_authentication(passport: PassportStatic): void {
             clientSecret: authentication_settings.google_secret,
             callbackURL: authentication_settings.google_callback,
             passReqToCallback: true
-        }, async function (req: Request, accessToken, refreshToken, profile, done) {
+        }, async function (req: Request, accessToken, refreshToken, profile: Profile, done) {
             let dao = new UserRepository();
             let user: User = req.user as User;
 
@@ -122,7 +121,7 @@ export function setup_authentication(passport: PassportStatic): void {
                 }
             } else { // Not Logged in, create new account or login
                 try {
-                    user = await dao.getOrRegisterOAuth('google', profile.id, profile.username);
+                    user = await dao.getOrRegisterOAuth('google', profile.id, profile.username, profile.emails[0].value);
                     if (!user) {
                         return done(null, false, { message: "Fail to create or retrive google account" });
                     }
