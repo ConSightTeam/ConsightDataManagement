@@ -54,7 +54,7 @@ export class UserRepository {
 
     async getOrRegisterOAuth(provider: string , oauth_id: string, username: string, email: string): Promise<User> {
         await this.db.connect();
-        await this.db.query('INSERT INTO public.user (' + provider + '_id, username, email) VALUES ($1, $2) ON CONFLICT DO NOTHING;', 
+        await this.db.query('INSERT INTO public.user (' + provider + '_id, username, email) VALUES ($1, $2, $3) ON CONFLICT DO NOTHING;', 
             [oauth_id, username, email]);
         let result = await this.db.query('SELECT id, email, username, github_id, google_id FROM public.user WHERE ' + provider + '_id = $1', [oauth_id]);
         await this.db.end()
