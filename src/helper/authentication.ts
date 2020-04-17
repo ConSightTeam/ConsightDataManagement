@@ -121,7 +121,8 @@ export function setup_authentication(passport: PassportStatic): void {
                 }
             } else { // Not Logged in, create new account or login
                 try {
-                    user = await dao.getOrRegisterOAuth('google', profile.id, profile.username, profile.emails[0].value);
+                    let username: string = profile.emails[0].value.split('@')[0]; // Generate username from Email, google does not provide a username property
+                    user = await dao.getOrRegisterOAuth('google', profile.id, username, profile.emails[0].value);
                     if (!user) {
                         return done(null, false, { message: "Fail to create or retrive google account" });
                     }
