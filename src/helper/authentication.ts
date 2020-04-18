@@ -78,16 +78,20 @@ export function setup_authentication(passport: PassportStatic): void {
                 try {
                     let result: boolean = await dao.update(user);
                     if (!result) {
-                        return done(null, false, { message: "Fail to link github account" });
+                        return done(null, false, { message: "Fail to link Github account" });
                     }
                 } catch (e) {
                     return done(e);
                 }
             } else { // Not Logged in, create new account or login
                 try {
+                    if (!profile.emails || !profile.emails[0]) {
+                        return done(null, false, { message: "Cannot get E-Mail from Github account, make sure that your Github's E-Mail is visible to the public." });
+                    }
+
                     user = await dao.getOrRegisterOAuth('github', profile.id, profile.username, profile.emails[0].value);
                     if (!user) {
-                        return done(null, false, { message: "Fail to create or retrive github account" });
+                        return done(null, false, { message: "Fail to create or retrive Github account" });
                     }
                 } catch (e) {
                     return done(e);

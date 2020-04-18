@@ -7,7 +7,7 @@ let router = Router();
 
 router.get('/', function(req: Request, res: Response) {
   let auth_settings = new AuthenticationSettings();
-  res.render('login', { google_enabled: auth_settings.google_enabled, github_enabled: auth_settings.github_enabled });
+  res.render('login', { message: req.flash('message'), google_enabled: auth_settings.google_enabled, github_enabled: auth_settings.github_enabled });
 });
 
 router.post('/', passport.authenticate('local', {

@@ -4,6 +4,7 @@ import * as cookieParser from "cookie-parser";
 import * as logger from "morgan";
 import * as exphbs from "express-handlebars";
 import * as session from "express-session";
+import flash = require("connect-flash");
 
 import * as passport from 'passport';
 
@@ -47,6 +48,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());
 
 app.use('/', indexRouter as express.Router);
 app.use('/api/v1/', checkToken, apiRouter as express.Router);
