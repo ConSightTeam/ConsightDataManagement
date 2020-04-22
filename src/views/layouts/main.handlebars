@@ -2,19 +2,106 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Administration Website</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>ConSight™ Administration Website</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#628284">
+
+    <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <link rel="stylesheet" href="plugins/jqvmap/jqvmap.min.css">
+    <link rel="stylesheet" href="css/adminlte.min.css">
+    <link rel="stylesheet" href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="plugins/summernote/summernote-bs4.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
-<body>
-    {{#if user}}
-        <p>Welcome {{user.username}}!</p>
-        <a href="/logout">Logout</a>
-        <a href="/profile">Profile</a>
-    {{else}}
-        <a href="/login">Login</a>
-        <a href="/register">Register</a>
-    {{/if}}
+<body class="hold-transition layout-top-nav">
+    <div class="wrapper">
+  <!-- Navbar -->
+  <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
+    <div class="container">
+      <a href="../../index3.html" class="navbar-brand">
+        <img src="../../dist/img/AdminLTELogo.png" alt="Logo" class="brand-image img-circle elevation-3"
+             style="opacity: .8">
+        <span class="brand-text font-weight-light">ConSight™</span>
+      </a>
+      
+      <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse order-3" id="navbarCollapse">
+        <!-- Left navbar links -->
+            <ul class="navbar-nav">
+                {{#if user}}
+                <li class="nav-item">
+                    <h3>Welcome {{user.username}}!</h3>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="/logout" class="nav-link">Logout</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="/profile" class="nav-link">Profile</a>
+                </li>
+                {{else}}
+                <li class="nav-item">
+                    <h3>Sign in you motherfucker!</h3>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="/login" class="nav-link">Login</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="/register" class="nav-link">Register</a>
+                </li>
+                {{/if}}
+            </ul>
+    </div>
+  </nav>
+  <!-- /.navbar -->
 
     {{{body}}}
-    
+    </div>
 </body>
+
+<footer>
+    <!-- Javascript -->
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+        integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+        integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+        crossorigin="anonymous"></script>
+    <script src="plugins/jquery/jquery.min.js"></script>
+    <script src="plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script>$.widget.bridge('uibutton', $.ui.button)</script>
+    <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="plugins/chart.js/Chart.min.js"></script>
+    <script src="plugins/sparklines/sparkline.js"></script>
+    <script src="plugins/jqvmap/jquery.vmap.min.js"></script>
+    <script src="plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+    <script src="plugins/jquery-knob/jquery.knob.min.js"></script>
+    <script src="plugins/moment/moment.min.js"></script>
+    <script src="plugins/daterangepicker/daterangepicker.js"></script>
+    <script src="plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+    <script src="plugins/summernote/summernote-bs4.min.js"></script>
+    <script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <script src="js/adminlte.js"></script>
+    <script src="js/pages/dashboard.js"></script>
+
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+</footer>
 </html>

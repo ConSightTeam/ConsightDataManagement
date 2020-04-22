@@ -32,8 +32,26 @@ function copyDependency() {
         }));
 };
 
+function adminLTE_css() { 
+    return gulp.src('node_modules/admin-lte/dist/css/**/*.css*')
+        .pipe(gulp.dest(PROD_DEST + '/public/css'))
+};
+
+function adminLTE_js() { 
+    return gulp.src('node_modules/admin-lte/dist/js/adminlte*')
+        .pipe(gulp.dest(PROD_DEST + '/public/js')) 
+};
+
+function adminLTE_plugins() {
+    return gulp.src('node_modules/admin-lte/plugins/**/*')
+        .pipe(gulp.dest(PROD_DEST + '/public/plugins'))
+};
+
 exports.transpile = transpile;
 exports.css = css;
 exports.copyHandlebars = copyHandlebars;
 exports.copyDependency = copyDependency;
-exports.default = gulp.parallel(transpile, copyHandlebars, css, copyDependency);
+exports.adminLTE_css = adminLTE_css;
+exports.adminLTE_js = adminLTE_js;
+exports.adminLTE_plugins = adminLTE_plugins;
+exports.default = gulp.parallel(transpile, copyHandlebars, css, copyDependency, adminLTE_css, adminLTE_js, adminLTE_plugins);
