@@ -8,7 +8,6 @@
     "build": "gulp"
   },
   "dependencies": {
-    "admin-lte": "^3.0.4",
     "bcrypt": "^4.0.1",
     "bootstrap-switch": "^3.4.0",
     "connect-flash": "^0.1.1",
@@ -47,6 +46,7 @@
     "@types/passport-google-oauth20": "^2.0.3",
     "@types/passport-local": "^1.0.33",
     "@types/pg": "^7.14.3",
+    "admin-lte": "^3.0.4",
     "acorn": "^7.1.1",
     "eslint": "^6.8.0",
     "gulp": "^4.0.2",
