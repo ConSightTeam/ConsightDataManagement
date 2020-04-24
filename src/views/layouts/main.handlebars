@@ -25,51 +25,60 @@
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
+
 <body class="hold-transition layout-top-nav">
     <div class="wrapper">
-  <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
-    <div class="container">
-      <a href="../../index3.html" class="navbar-brand">
-        <img src="../../dist/img/AdminLTELogo.png" alt="Logo" class="brand-image img-circle elevation-3"
-             style="opacity: .8">
-        <span class="brand-text font-weight-light">ConSight™</span>
-      </a>
-      
-      <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
+            <div class="container">
+                <a href="#" class="navbar-brand">
+                    <img src="images/UVISLogo_NoText.png" alt="Consight Logo" class="brand-image" style="opacity: .8">
+                    <span class="brand-text font-weight-light">ConSight™</span>
+                </a>
 
-      <div class="collapse navbar-collapse order-3" id="navbarCollapse">
-        <!-- Left navbar links -->
-            <ul class="navbar-nav">
-                {{#if user}}
-                <li class="nav-item">
-                    <h3>Welcome {{user.username}}!</h3>
-                </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a href="/logout" class="nav-link">Logout</a>
-                </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a href="/profile" class="nav-link">Profile</a>
-                </li>
-                {{else}}
-                <li class="nav-item">
-                    <h3>Sign in you motherfucker!</h3>
-                </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a href="/login" class="nav-link">Login</a>
-                </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a href="/register" class="nav-link">Register</a>
-                </li>
-                {{/if}}
-            </ul>
-    </div>
-  </nav>
-  <!-- /.navbar -->
+                <button class="navbar-toggler order-1" type="button" data-toggle="collapse"
+                    data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-    {{{body}}}
+                <div class="collapse navbar-collapse order-3" id="navbarCollapse">
+                    <!-- Left navbar links -->
+                    <ul class="navbar-nav">
+                        {{#if user}}
+                        <li class="nav-item d-none d-sm-inline-block">
+                            <a href="/logout" class="nav-link">Logout</a>
+                        </li>
+                        <li class="nav-item d-none d-sm-inline-block">
+                            <a href="/profile" class="nav-link">Profile</a>
+                        </li>
+                        {{else}}
+                        <li class="nav-item d-none d-sm-inline-block">
+                            <a href="/login" class="nav-link">Login</a>
+                        </li>
+                        <li class="nav-item d-none d-sm-inline-block">
+                            <a href="/register" class="nav-link">Register</a>
+                        </li>
+                        {{/if}}
+                    </ul>
+
+                    <!-- Right navbar links -->
+                    <ul class="navbar-nav ml-auto">
+                        {{#if user}}
+                        <li class="nav-item">
+                            <h4>Welcome {{user.username}}!</h4>
+                        </li>
+                        {{else}}
+                        <li class="nav-item">
+                            <h4>Sign in you motherfucker!</h4>
+                        </li>
+                        {{/if}}
+                    </ul>
+                </div>
+        </nav>
+        <!-- /.navbar -->
+
+        {{{body}}}
     </div>
 </body>
 
@@ -104,4 +113,5 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>
 </footer>
+
 </html>

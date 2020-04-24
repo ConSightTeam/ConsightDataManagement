@@ -18,6 +18,11 @@ function copyHandlebars() {
         .pipe(gulp.dest(PROD_DEST + '/views'));
 }
 
+function copyImages() {
+    return gulp.src('src/public/images/*.png')
+        .pipe(gulp.dest(PROD_DEST + '/public/images'));
+}
+
 function css() {
     return gulp.src('src/public/stylesheets/*.css')
         .pipe(minifyCSS())
@@ -49,9 +54,10 @@ function adminLTE_plugins() {
 
 exports.transpile = transpile;
 exports.css = css;
+exports.copyImages = copyImages;
 exports.copyHandlebars = copyHandlebars;
 exports.copyDependency = copyDependency;
 exports.adminLTE_css = adminLTE_css;
 exports.adminLTE_js = adminLTE_js;
 exports.adminLTE_plugins = adminLTE_plugins;
-exports.default = gulp.parallel(transpile, copyHandlebars, css, copyDependency, adminLTE_css, adminLTE_js, adminLTE_plugins);
+exports.default = gulp.parallel(transpile, copyHandlebars, copyImages, css, copyDependency, adminLTE_css, adminLTE_js, adminLTE_plugins);
