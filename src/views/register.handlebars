@@ -1,29 +1,92 @@
-<h1>Register</h1>
-
-<form method="post">
-    <div>
-        <label>E-mail:</label>
-        <input type="text" name="email"/>
+<div class="login-page">
+  <div class="login-box">
+    <div class="login-logo" style="margin-bottom: 30px">
+      <img src="images/UVISLogo_TextUnder.png" alt="Consight Logo" width="40%" style="opacity: .8">
     </div>
-    <div>
-        <label>Username:</label>
-        <input type="text" name="username"/>
-    </div>
-    <div>
-        <label>Password:</label>
-        <input type="password" name="password"/>
-    </div>
-    <div>
-        <label>Confirm Password:</label>
-        <input type="password" name="password_confirm"/>
-    </div>
-    {{#if error}}
-        <p>Error: </p>
+    <!-- /.login-logo -->
+    <div class="card">
+      <div class="card-body login-card-body">
+        <p class="login-box-msg"><b>Register</b> a new account</p>
+        <ul>
+        {{#if error}}
         {{#each error.errors}}
-            <p>{{this.param}}: {{this.msg}}</p>
+            <li style="color:red">{{this.param}}: {{this.msg}}</li>
         {{/each}}
-    {{/if}}
-    <div>
-        <input type="submit" value="Register"/>
+        {{/if}}
+        </ul>
+
+        <form method="post">
+        <div class="input-group mb-3">
+            <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Username" name="username">
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-user"></span>
+              </div>
+            </div>
+          </div>
+            <input type="text" class="form-control" placeholder="Email" name="email">
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-envelope"></span>
+              </div>
+            </div>
+          </div>
+          <div class="input-group mb-3">
+            <input type="password" class="form-control" placeholder="Password" name="password">
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-lock"></span>
+              </div>
+            </div>
+          </div>
+          <div class="input-group mb-3">
+            <input type="password" class="form-control" placeholder="Retype Password" name="password_confirm">
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-lock"></span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-8">
+            <div class="icheck-primary">
+              <input type="checkbox" id="agreeTerms" name="terms" value="agree">
+              <label for="agreeTerms">
+               I agree to the <a href="#">terms</a>
+              </label>
+            </div>
+            </div>
+            <!-- /.col -->
+            <div class="col-4">
+              <input type="submit" class="btn btn-primary btn-block" value="Register" />
+            </div>
+            <!-- /.col -->
+          </div>
+
+
+          <div class="social-auth-links text-center mb-3">
+            <p>- OR -</p>
+            {{#if github_enabled}}
+            <a href="/login/github" class="btn btn-block btn-dark">
+              <i class="fab fa-github mr-2"></i> Sign up using Github
+            </a>
+            {{/if}}
+            {{#if google_enabled}}
+            <a href="/login/google" class="btn btn-block btn-danger">
+              <i class="fab fa-google mr-2"></i> Sign up using Google Account
+            </a>
+            {{/if}}
+          </div>
+          <!-- /.social-auth-links -->
+
+          <p class="mb-0">
+            <a href="/login" class="text-center">I already have an account</a>
+          </p>
+        </form>
+      </div>
+
+      <!-- /.login-card-body -->
     </div>
-</form>
+  </div>
+</div>
