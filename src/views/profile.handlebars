@@ -1,21 +1,41 @@
-<h1>Profile</h1>
+<div class="login-page">
+  <div class="login-box">
+    <div class="login-logo" style="margin-bottom: 30px">
+      <img src="images/UVISLogo_TextUnder.png" alt="Consight Logo" width="40%" style="opacity: .8">
+    </div>
+    <!-- /.login-logo -->
+    <div class="card card-primary card-outline">
+        <div class="card-body box-profile">
+        <h3 class="profile-username text-center">Welcome, {{ current_user.username }}</h3>
 
-<p>ID: {{ current_user.id }}</p>
-<p>Email: {{ current_user.email }}</p>
-<p>Username: {{ current_user.username }}</p>
+        <ul class="list-group list-group-unbordered mb-3">
+            <li class="list-group-item">
+            <b>ID</b> <a class="float-right">{{ current_user.id }}</a>
+            </li>
+            <li class="list-group-item">
+            <b>Username</b> <a class="float-right">{{ current_user.username }}</a>
+            </li>
+            <li class="list-group-item">
+            <b>Email Address</b> <a class="float-right">{{ current_user.email }}</a>
+            </li>
+        </ul>
 
-{{#if github_enabled}}
-    {{#unless current_user.github_id}}
-        <a href="/login/github">Link Github</a>
-    {{else}}
-        <p>Linked to Github</p>
-    {{/unless}}
-{{/if}}
-
-{{#if google_enabled}}
-    {{#unless current_user.google_id}}
-        <a href="/login/google">Link Google</a>
-    {{else}}
-        <p>Linked to Google</p>
-    {{/unless}}
-{{/if}}
+        {{#if github_enabled}}
+            {{#unless current_user.github_id}}
+                <a href="/login/github" class="btn btn-block btn-dark"><i class="fab fa-github mr-2"></i> Link Account using Github</a>
+            {{else}}
+                <a href="/login/github" class="btn btn-block btn-dark disabled"><i class="fab fa-github mr-2"></i> Already Linked</a>
+            {{/unless}}
+        {{/if}}
+        {{#if google_enabled}}
+            {{#unless current_user.google_id}}
+                <a href="/login/google" class="btn btn-block btn-danger"><i class="fab fa-google mr-2"></i> Link Account using Google Account</a>
+            {{else}}
+                <a href="/login/google" class="btn btn-block btn-danger disabled"><i class="fab fa-google mr-2"></i> Already Linked</a>
+            {{/unless}}
+        {{/if}}
+        </div>
+        <!-- /.card-body -->
+    </div>
+  </div>
+</div>

@@ -47,10 +47,10 @@
                     <ul class="navbar-nav">
                         {{#if user}}
                         <li class="nav-item d-none d-sm-inline-block">
-                            <a href="/logout" class="nav-link">Logout</a>
+                            <a href="/profile" class="nav-link">Profile</a>
                         </li>
                         <li class="nav-item d-none d-sm-inline-block">
-                            <a href="/profile" class="nav-link">Profile</a>
+                            <a href="/logout" class="nav-link">Logout</a>
                         </li>
                         {{else}}
                         <li class="nav-item d-none d-sm-inline-block">
@@ -66,11 +66,11 @@
                     <ul class="navbar-nav ml-auto">
                         {{#if user}}
                         <li class="nav-item">
-                            <h4>Welcome {{user.username}}!</h4>
+                            <p>Welcome {{user.username}}!</p>
                         </li>
                         {{else}}
                         <li class="nav-item">
-                            <h4>Sign in you motherfucker!</h4>
+                            <p>Please login before using ConSight</p>
                         </li>
                         {{/if}}
                     </ul>
