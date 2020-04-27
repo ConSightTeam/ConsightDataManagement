@@ -6,7 +6,7 @@
     <!-- /.login-logo -->
     <div class="card card-primary card-outline">
         <div class="card-body box-profile">
-        <h3 class="profile-username text-center">Welcome, {{ current_user.username }}</h3>
+        <h3 class="profile-username text-center"><i class="far fa-id-card"></i> Profile</h3>
 
         <ul class="list-group list-group-unbordered mb-3">
             <li class="list-group-item">
@@ -34,6 +34,8 @@
                 <a href="/login/google" class="btn btn-block btn-danger disabled"><i class="fab fa-google mr-2"></i> Already Linked</a>
             {{/unless}}
         {{/if}}
+
+        <br><a href="/logout" class="btn btn-block btn-primary">Logout</a>
         </div>
         <!-- /.card-body -->
     </div>

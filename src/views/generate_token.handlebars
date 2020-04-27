@@ -1,13 +1,33 @@
-<h1>Token generation</h1>
+<div class="login-page">
+  <div class="login-box">
+    <div class="login-logo" style="margin-bottom: 30px">
+      <img src="images/UVISLogo_TextUnder.png" alt="Consight Logo" width="40%" style="opacity: .8">
+    </div>
+      <!-- left column -->
+    <!-- general form elements -->
+    <div class="card card-success card-outline">
+      <div class="card-body box-profile">
+      <h3 class="profile-username text-center"><i class="fas fa-key"></i> Token generation</h3>
+      
+      <!-- /.card-header -->
+      <!-- form start -->
+        <div class="card-body">
+          <p class="login-box-msg"><b>Note:</b> Onced generated, please stored the token in a safe place.</p>
+          <p class="login-box-msg">If lost, the token must be regenerated.</p>
 
-<p>Note: Onced generated, please stored the token in a safe place.</p>
-<p>If lost, the token must be regenerated.</p>
+          {{#if token}}
+            <p>Token: {{token}}</p>
+          {{/if}}
 
-{{#if token}}
-    <p>Token: {{token}}</p>
-{{/if}}
-
-<a href="../..">Back</a>
-<form method="POST">
-    <button type="submit">Generate</button>
-</form>
+        <form method="POST">
+        <button type="submit" class="btn btn-block btn-success">Generate</button>
+      </form>
+      <p class="mb-0">
+            <a href="../.." class="text-center">Back</a>
+          </p>
+    </div>
+    <!-- /.card -->
+    </div>
+  </div>
+</div>
+</div>
