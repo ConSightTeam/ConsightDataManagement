@@ -19,7 +19,7 @@ function copyHandlebars() {
 }
 
 function copyImages() {
-    return gulp.src('src/public/images/*.png')
+    return gulp.src('src/public/images/*.*')
         .pipe(gulp.dest(PROD_DEST + '/public/images'));
 }
 
