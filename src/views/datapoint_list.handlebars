@@ -1,15 +1,34 @@
-<h1>Data Points</h1>
+<div class="login-page">
+  <div class="login-box">
+    <div class="login-logo" style="margin-bottom: 30px">
+      <img src="../../images/UVISLogo_TextUnder.png" alt="Consight Logo" width="40%" style="opacity: .8">
+    </div>
+      <!-- left column -->
+    <!-- general form elements -->
+    <div class="card card-primary card-outline">
+      <div class="card-body box-profile">
+      <h3 class="profile-username text-center">Data Points</h3>
+      
+      <!-- /.card-header -->
+      <!-- form start -->
+        <div class="card-body">
+          {{#if data_points}}
+            {{#each data_points}}
+                <p>ID: {{this.id}}</p>
+                <p>Data: {{ toJSON this.data }}</p>
+                <p>Inserted On: {{this.inserted_on}}</p>
+                <a href="/data_point/{{../node_uuid}}/{{this.id}}/delete">Delete</a>
+            {{/each}}
 
-{{#if data_points}}
-    {{#each data_points}}
-        <p>ID: {{this.id}}</p>
-        <p>Data: {{ toJSON this.data }}</p>
-        <p>Inserted On: {{this.inserted_on}}</p>
-        <a href="/data_point/{{../node_uuid}}/{{this.id}}/delete">Delete</a>
-    {{/each}}
-
-    <form method="GET">
-        <p>Page <input type="number" id="page-select" name="page-select" value="{{current_page}}"> of {{total_page}}</p>
-        <button type="submit">Go</button>
-    </form>
-{{/if}}
+        <form method="POST">
+            <p>Page <input type="number" id="page-select" name="page-select" value="{{current_page}}"> of {{total_page}}</p>
+            </br><button type="submit" class="btn btn-block btn-primary">Go</button>
+      </form>
+      {{/if}}
+      <a type="button" class="btn btn-block" href="../..">Back</a>
+    </div>
+    <!-- /.card -->
+    </div>
+  </div>
+</div>
+</div>

@@ -1,8 +1,27 @@
-<h1>Are you sure?</h1>
+<div class="login-page">
+  <div class="login-box">
+    <div class="login-logo" style="margin-bottom: 30px">
+      <img src="../../images/UVISLogo_TextUnder.png" alt="Consight Logo" width="40%" style="opacity: .8">
+    </div>
+      <!-- left column -->
+    <!-- general form elements -->
+    <div class="card card-danger card-outline">
+      <div class="card-body box-profile">
+      <h3 class="profile-username text-center"><i class="fas fa-trash"></i> Delete</h3>
+      
+      <!-- /.card-header -->
+      <!-- form start -->
+        <div class="card-body">
+          <p class="login-box-msg">You are about to <u>delete</u></p>
+          <p class="login-box-msg" style="color:red;"><b>{{delete_detail}}</b></p>
 
-<p>You are about to delete {{delete_detail}}</p>
-
-<a href="{{back_url}}">Cancel</a>
-<form method="POST">
-    <button type="submit">Confirm</button>
-</form>
+        <form method="POST">
+        </br><button type="submit" class="btn btn-block btn-danger">Confirm</button>
+      </form>
+      <a type="button" class="btn btn-block" href="../..">Cancel</a>
+    </div>
+    <!-- /.card -->
+    </div>
+  </div>
+</div>
+</div>
