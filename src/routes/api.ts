@@ -19,10 +19,7 @@ router.post('/', async function(req: Request, res: Response) {
             success = await dao.insertOneWithoutLocation(req.body['uuid'], req.body['data']);
         }
     } catch (err) {
-        console.error("Request: " + JSON.stringify(req.body));
-        console.error(err.message);
-        res.status(500).end(err.messenge);
-        return;
+        return res.status(500).json({message: err.message});
     }
     if (success) {
         res.sendStatus(201);
