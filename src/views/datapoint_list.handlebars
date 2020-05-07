@@ -20,7 +20,7 @@
                 <a href="/data_point/{{../node_uuid}}/{{this.id}}/delete">Delete</a>
             {{/each}}
 
-        <form method="POST">
+        <form method="GET">
             <p>Page <input type="number" id="page-select" name="page-select" value="{{current_page}}"> of {{total_page}}</p>
             </br><button type="submit" class="btn btn-block btn-primary">Go</button>
       </form>
