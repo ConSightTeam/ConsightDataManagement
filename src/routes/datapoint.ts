@@ -13,9 +13,12 @@ router.get('/:node_uuid', async function(req: Request, res: Response) {
     let page: number = parseInt(req.query['page-select'] as string) || 1;
     let dao1 = new DataPointRepository();
     let dao2 = new DataPointRepository();
+    let total_instances: number = parseInt(await dao2.getTotal(node_uuid));
+    let total_pages = Math.ceil(total_instances / 10);
+
     res.render('datapoint_list', { 
         data_points: await dao1.getMutiples(page, node_uuid), current_page: page, 
-        total_pages: await dao2.getTotal(node_uuid),node_uuid: node_uuid 
+        total_pages: total_pages ,node_uuid: node_uuid 
     });
 });
 

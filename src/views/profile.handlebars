@@ -8,6 +8,12 @@
         <div class="card-body box-profile">
         <h3 class="profile-username text-center"><i class="far fa-id-card"></i> Profile</h3>
 
+        <ul>
+          {{#each message}}
+          <li style="color:red">{{this}}</li>
+          {{/each}}
+        </ul>
+
         <ul class="list-group list-group-unbordered mb-3">
             <li class="list-group-item">
             <b>ID</b> <a class="float-right">{{ current_user.id }}</a>
@@ -19,6 +25,8 @@
             <b>Email Address</b> <a class="float-right">{{ current_user.email }}</a>
             </li>
         </ul>
+
+        <a href="profile/change_password" class="btn btn-block btn-danger">Change Password</a>
 
         {{#if github_enabled}}
             {{#unless current_user.github_id}}

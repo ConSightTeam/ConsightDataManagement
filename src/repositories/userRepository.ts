@@ -6,12 +6,12 @@ export class UserRepository {
     db: Client
 
     constructor() {
-        this.db = new Client();
+        this.reset();
     }
 
     async getByID(id: number): Promise<User> {
         await this.db.connect();
-        let result = await this.db.query('SELECT id, username, email, github_id, google_id FROM public.user WHERE id = $1', [id]);
+        let result = await this.db.query('SELECT id, username, email, hashed_password IS NOT NULL as have_password, github_id, google_id FROM public.user WHERE id = $1', [id]);
         await this.db.end();
         
         if (result.rowCount > 0) {
@@ -23,7 +23,7 @@ export class UserRepository {
 
     async get(username: string, password: string): Promise<User> {
         await this.db.connect();
-        let result = await this.db.query('SELECT id, username, email, hashed_password, github_id, google_id FROM public.user WHERE LOWER(username) = LOWER($1)', [username]);
+        let result = await this.db.query('SELECT id, username, email, hashed_password, hashed_password IS NOT NULL as have_password, github_id, google_id FROM public.user WHERE LOWER(username) = LOWER($1)', [username]);
         await this.db.end();
 
         if (result.rowCount > 0 && await bcrypt.compare(password, result.rows[0]['hashed_password'])) {
@@ -52,6 +52,16 @@ export class UserRepository {
         return result.rowCount > 0;
     }
 
+    async updatePassword(user: User, new_password: string): Promise<boolean> {
+        let newHashedPassword = await bcrypt.hash(new_password, 10);
+
+        await this.db.connect();
+            let result = await this.db.query('UPDATE public.user SET hashed_password = $2 WHERE id = $1', 
+                [user.id, newHashedPassword]);
+        await this.db.end();
+        return result.rowCount > 0;
+    }
+
     async getOrRegisterOAuth(provider: string , oauth_id: string, username: string, email: string): Promise<User> {
         await this.db.connect();
         await this.db.query('INSERT INTO public.user (' + provider + '_id, username, email) VALUES ($1, $2, $3) ON CONFLICT DO NOTHING;', 
@@ -64,5 +74,9 @@ export class UserRepository {
         } else {
             return null;
         }
+    }
+
+    reset() {
+        this.db = new Client();
     }
 }
