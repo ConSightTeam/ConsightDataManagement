@@ -12,19 +12,20 @@
       <!-- /.card-header -->
       <!-- form start -->
         <div class="card-body">
-          {{#if data_points}}
+          {{#unless data_points}}
+            <p>No data</p>
+          {{else}}
             {{#each data_points}}
                 <p>ID: {{this.id}}</p>
                 <p>Data: {{ toJSON this.data }}</p>
                 <p>Inserted On: {{this.inserted_on}}</p>
                 <a href="/data_point/{{../node_uuid}}/{{this.id}}/delete">Delete</a>
             {{/each}}
-
-        <form method="GET">
-            <p>Page <input type="number" id="page-select" name="page-select" value="{{current_page}}"> of {{total_page}}</p>
+          {{/unless}}
+          <form method="GET">
+            <p>Page <input type="number" id="page-select" name="page-select" value="{{current_page}}"> of {{total_pages}}</p>
             </br><button type="submit" class="btn btn-block btn-primary">Go</button>
-      </form>
-      {{/if}}
+          </form>
       <a type="button" class="btn btn-block" href="../..">Back</a>
     </div>
     <!-- /.card -->

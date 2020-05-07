@@ -15,7 +15,7 @@ router.get('/:node_uuid', async function(req: Request, res: Response) {
     let dao2 = new DataPointRepository();
     res.render('datapoint_list', { 
         data_points: await dao1.getMutiples(page, node_uuid), current_page: page, 
-        total_page: await dao2.getTotal(node_uuid), node_uuid: node_uuid 
+        total_pages: await dao2.getTotal(node_uuid),node_uuid: node_uuid 
     });
 });
 

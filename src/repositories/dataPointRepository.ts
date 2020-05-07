@@ -25,9 +25,9 @@ export class DataPointRepository {
 
     async getTotal(node_uuid: string): Promise<string> {
         await this.db.connect();
-        let result = await this.db.query('SELECT COUNT(*) FROM data_point WHERE node=$1', [node_uuid]);
+        let result = await this.db.query('SELECT COUNT(*) as total FROM data_point WHERE node=$1', [node_uuid]);
         await this.db.end();
-        return result.rows['count'];
+        return result.rows[0]['total'];
     }
 
     async getMutiples(page: number, node_uuid: string) {
@@ -38,7 +38,7 @@ export class DataPointRepository {
              WHERE node = $1 \
              ORDER BY node, inserted_on DESC \
              OFFSET $2 \
-             LIMIT 10', [node_uuid, page * 10]);
+             LIMIT 10', [node_uuid, (page - 1) * 10]);
         await this.db.end();
         let result: Array<DataPoint> = [];
         queryResult.rows.forEach(element => {
