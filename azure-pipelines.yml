@@ -12,10 +12,10 @@ variables:
   azureSubscription: '9e563f3d-a07f-4c2e-9b34-259f3cb66a39'
   
   # Web app name
-  webAppName: 'iotplatdatamanagement'
+  webAppName: 'iot-plat-data-management'
   
   # Environment name
-  environmentName: 'iotplatdatamanagement'
+  environmentName: 'iot-plat-datamanagement'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
