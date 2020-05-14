@@ -1,0 +1,49 @@
+<div class="login-page">
+  <div class="login-box">
+    <div class="login-logo" style="margin-bottom: 30px">
+      <img src="../../images/ConsightLogo_TextUnder.svg" alt="Consight Logo" width="40%" style="opacity: .8">
+    </div>
+    <!-- /.login-logo -->
+    <div class="card">
+      <div class="card-body login-card-body">
+        <p class="login-box-msg"><b>Edit</b> profile</p>
+        <ul>
+        {{#if error}}
+        {{#each error.errors}}
+            <li style="color:red">{{this.param}}: {{this.msg}}</li>
+        {{/each}}
+        {{/if}}
+        </ul>
+
+        <form method="post">
+        <div class="input-group mb-3">
+            <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Username" name="username" value="{{ username }}">
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-user"></span>
+              </div>
+            </div>
+          </div>
+            <input type="text" class="form-control" placeholder="Email" name="email" value="{{ email }}">
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-envelope"></span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <!-- /.col -->
+            <div class="col-4">
+              <input type="submit" class="btn btn-primary btn-block" value="Submit" />
+            </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.social-auth-links -->
+        </form>
+      </div>
+
+      <!-- /.login-card-body -->
+    </div>
+  </div>
+</div>

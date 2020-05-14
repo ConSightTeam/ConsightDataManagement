@@ -48,7 +48,7 @@ function adminLTE_js() {
 };
 
 function adminLTE_plugins() {
-    return gulp.src('node_modules/admin-lte/plugins/**/*')
+    return gulp.src(['node_modules/admin-lte/plugins/**/*', '!node_modules/admin-lte/plugins/**/package.json'])
         .pipe(gulp.dest(PROD_DEST + '/public/plugins'))
 };
 

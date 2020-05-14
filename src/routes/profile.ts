@@ -43,4 +43,31 @@ router.post('/change_password', [
     }
 );
 
+router.get('/edit', function(req: Request, res: Response) {
+    let user = req.user as User;
+    res.render('edit_profile', { email: user.email, username: user.username });
+})
+
+router.post('/edit', [
+    check('email').notEmpty().isEmail().normalizeEmail(), 
+    check('username').notEmpty().isLength({ min: 5 })
+    ], 
+    async function(req: Request, res: Response) {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.render('edit_profile', { error: errors});
+        }
+
+        let user: User = req.user as User;
+        user.email = req.body['email'];
+        user.username = req.body['username'];
+
+        let dao = new UserRepository();
+        if (!(await dao.update(user))) {
+            req.flash('error', 'Error updating password');
+        } 
+        res.redirect('/profile');
+    }
+);
+
 module.exports = router;
