@@ -8,7 +8,7 @@ var router = Router();
 
 router.use(isLoggedIn);
 
-router.get('/:node_uuid', async function(req: Request, res: Response) {
+router.get('/:node_uuid', async function(req: Request, res: Response, next: NextFunction) {
     let node_uuid = req.params['node_uuid'];
     let page: number = parseInt(req.query['page-select'] as string) || 1;
     let dao1 = new DataPointRepository();
@@ -16,10 +16,14 @@ router.get('/:node_uuid', async function(req: Request, res: Response) {
     let total_instances: number = parseInt(await dao2.getTotal(node_uuid));
     let total_pages = Math.ceil(total_instances / 10);
 
-    res.render('datapoint_list', { 
-        data_points: await dao1.getMutiples(page, node_uuid), current_page: page, 
-        total_pages: total_pages ,node_uuid: node_uuid 
-    });
+    try {
+        res.render('datapoint_list', { 
+            data_points: await dao1.getMutiples(page, node_uuid), current_page: page, 
+            total_pages: total_pages ,node_uuid: node_uuid 
+        });
+    } catch (e) {
+        return next(e);
+    }
 });
 
 router.get('/:node_uuid/:id/delete', async function(req: Request, res: Response) {
@@ -29,10 +33,16 @@ router.get('/:node_uuid/:id/delete', async function(req: Request, res: Response)
     res.render('delete_confirmation', { delete_detail: delete_detail, back_url: '/data_point/' + node_uuid });
 });
 
-router.post('/:node_uuid/:id/delete', async function(req: Request, res: Response) {
+router.post('/:node_uuid/:id/delete', async function(req: Request, res: Response, next: NextFunction) {
     let node_uuid = req.params['node_uuid'];
     let id = req.params['id'];
-    (new DataPointRepository()).deleteOne(parseInt(id), (req.user as User).id);
+
+    try {
+        (new DataPointRepository()).deleteOne(parseInt(id), (req.user as User).id);
+    } catch (e) {
+        return next(e);
+    }
+    
     res.redirect('/data_point/' + node_uuid);
 });
 

@@ -1,4 +1,4 @@
-import { Router, Request, Response } from "express";
+import { Router, Request, Response, NextFunction } from "express";
 import { check, validationResult } from "express-validator";
 import { UserRepository } from "../repositories/userRepository";
 import { get_password_schema } from "../helper/password_schema";
@@ -16,7 +16,7 @@ router.post('/',
         check('password_confirm', 'Confirm Password field must have the same value as the password field')
             .notEmpty().custom((value, { req }) => value === req.body['password'])
     ],
-    async function(req: Request, res: Response) {
+    async function(req: Request, res: Response, next: NextFunction) {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.render('register', { error: errors});
@@ -27,8 +27,12 @@ router.post('/',
         let email: string = req.body['email'];
 
         let dao = new UserRepository();
-        dao.register(email, username, password);
-
+        try {
+            dao.register(email, username, password);
+        } catch(e) {
+            return next(e)
+        }
+        
         res.redirect('/login');
 });
 

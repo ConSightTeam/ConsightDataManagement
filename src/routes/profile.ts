@@ -1,4 +1,4 @@
-import { Router, Request, Response } from "express";
+import { Router, Request, Response, NextFunction } from "express";
 
 import { isLoggedIn } from "../middleware/isLoggedIn";
 
@@ -29,14 +29,22 @@ router.post('/change_password', [
         check('password_confirm', 'Confirm Password field must have the same value as the password field')
         .notEmpty().custom((value, { req }) => value === req.body['password'])
     ], 
-    async function(req: Request, res: Response) {
+    async function(req: Request, res: Response, next: NextFunction) {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.render('change_password', { error: errors});
         }
 
         let dao = new UserRepository();
-        if (!(await dao.updatePassword(req.user as User, req.body['password']))) {
+        let success = false;
+
+        try {
+            success = await dao.updatePassword(req.user as User, req.body['password']);
+        } catch (e) {
+            return next(e);
+        }
+
+        if (!success) {
             req.flash('error', 'Error updating password');
         } 
         res.redirect('/profile');
@@ -52,7 +60,7 @@ router.post('/edit', [
     check('email').notEmpty().isEmail().normalizeEmail(), 
     check('username').notEmpty().isLength({ min: 5 })
     ], 
-    async function(req: Request, res: Response) {
+    async function(req: Request, res: Response, next: NextFunction) {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.render('edit_profile', { error: errors});
@@ -63,7 +71,14 @@ router.post('/edit', [
         user.username = req.body['username'];
 
         let dao = new UserRepository();
-        if (!(await dao.update(user))) {
+        let success = false;
+        try {
+            success = await dao.update(user);
+        } catch (e) {
+            return next(e);
+        }
+
+        if (!success) {
             req.flash('error', 'Error updating password');
         } 
         res.redirect('/profile');
