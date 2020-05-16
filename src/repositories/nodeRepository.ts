@@ -1,4 +1,4 @@
-import { query } from "../helper/db";
+import { query, get_pool_client } from "../helper/db";
 import { Node } from "../model/Node";
 
 export class NodeRepository {
@@ -54,8 +54,19 @@ export class NodeRepository {
     }
 
     async deleteOne(uuid: string){
-        let result = await query('DELETE FROM node WHERE uuid = $1 AND owner = $2', [uuid, this.owner_id]);
-        return result.rowCount > 0;
+        let client = await get_pool_client();
+
+        try {
+            await client.query('BEGIN');
+            await client.query('DELETE FROM node WHERE uuid = $1 AND owner = $2', [uuid, this.owner_id]);
+            await client.query('DELETE FROM data_point WHERE node = $1 AND (SELECT owner = $2 FROM node)', [uuid, this.owner_id]);
+            await client.query('COMMIT');
+        } catch (e) {
+            await client.query('ROLLBACK')
+            throw e;
+        } finally {
+            client.release()
+        }
     }
 
     private constructGeoJsonPoint(x: number, y: number) {
