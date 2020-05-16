@@ -59,6 +59,11 @@ app.use('/logout', logoutRouter as express.Router);
 app.use('/register', registerRouter as express.Router);
 app.use('/profile', profileRouter as express.Router);
 
+app.use(function(req: express.Request, res: express.Response) {
+    res.status(400);
+    res.render('404');
+});
+
 app.use(function (err, req: express.Request, res: express.Response, next: express.NextFunction) {
     console.error(err.stack);
     res.status(500).render('error', {error: err, message: err.message});
