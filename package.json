@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node ./dist/bin/www.js",
     "compile": "tsc",
-    "build": "gulp"
+    "build": "gulp",
+    "add_superuser": "node ./dist/add_superuser.js"
   },
   "dependencies": {
     "bcrypt": "^4.0.1",
@@ -28,6 +29,7 @@
     "passport-local": "^1.0.0",
     "password-validator": "^5.0.3",
     "pg": "^8.0.2",
+    "readline-sync": "^1.4.10",
     "tempusdominus-bootstrap-4": "^5.1.2",
     "tempusdominus-core": "^5.0.3"
   },
@@ -46,8 +48,9 @@
     "@types/passport-google-oauth20": "^2.0.3",
     "@types/passport-local": "^1.0.33",
     "@types/pg": "^7.14.3",
-    "admin-lte": "^3.0.4",
+    "@types/readline-sync": "^1.4.3",
     "acorn": "^7.1.1",
+    "admin-lte": "^3.0.4",
     "eslint": "^6.8.0",
     "gulp": "^4.0.2",
     "gulp-csso": "^4.0.1",

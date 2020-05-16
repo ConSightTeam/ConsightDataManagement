@@ -36,7 +36,9 @@ export class DataPointRepository {
     }
 
     public async deleteOne(id: number, owner_id: number): Promise<boolean> {
-        let result = await query('DELETE FROM data_point WHERE data_point.id = $1 AND (SELECT (data_point.node = node.uuid) FROM node WHERE node.owner = $2)', [id, owner_id]);
+        let result = await query('DELETE FROM data_point WHERE data_point.id = $1 AND \
+            (SELECT (data_point.node = node.uuid) FROM node WHERE node.owner = $2) OR \
+            (SELECT is_admin FROM public.user WHERE id = $2)', [id, owner_id]);
         return result.rowCount > 0;
     }
 

@@ -9,7 +9,8 @@ export class NodeRepository {
     }
 
     async getAll(): Promise<Node[]> {
-        let queryResult = await query('SELECT uuid, name, ST_ASGeoJson(location) AS location FROM node WHERE owner = $1;', [this.owner_id]);
+        let queryResult = await query('SELECT uuid, name, ST_ASGeoJson(location) AS location FROM node WHERE owner = $1 OR \
+            (SELECT is_admin FROM public.user WHERE id = $1);', [this.owner_id]);
         let result: Array<Node> = [];
         queryResult.rows.forEach(element => {
             if (element.location) {
@@ -22,7 +23,8 @@ export class NodeRepository {
     }
 
     async get(uuid: string): Promise<Node> {
-        let queryResult = await query('SELECT uuid, name, ST_ASGeoJson(location) AS location FROM node WHERE uuid = $1 AND owner = $2;', [uuid, this.owner_id]);
+        let queryResult = await query('SELECT uuid, name, ST_ASGeoJson(location) AS location FROM node \
+            WHERE uuid = $1 AND (owner = $2 OR (SELECT is_admin FROM public.user WHERE id = $2));', [uuid, this.owner_id]);
         let result: any = queryResult.rows[0];
         if (result.location) {
             let location: Geometry = JSON.parse(result.location) as Geometry;
@@ -43,12 +45,14 @@ export class NodeRepository {
     }
 
     async updateOne(uuid:string, name: string): Promise<boolean> {
-        let result = await query('UPDATE node SET name = $2, location = null WHERE uuid = $1 AND owner = $3', [uuid, name, this.owner_id]);
+        let result = await query('UPDATE node SET name = $2, location = null WHERE uuid = $1 AND \
+            (owner = $3 OR (SELECT is_admin FROM public.user WHERE id = $3))', [uuid, name, this.owner_id]);
         return result.rowCount > 0;
     }
 
     async updateOneWithLocation(uuid:string, name: string, x: number, y: number): Promise<boolean> {
-        let result = await query('UPDATE node SET name = $2, location = ST_GeomFromGeoJSON($3) WHERE uuid = $1 AND owner = $4', 
+        let result = await query('UPDATE node SET name = $2, location = ST_GeomFromGeoJSON($3) \
+            WHERE uuid = $1 AND (owner = $4 OR (SELECT is_admin FROM public.user WHERE id = $4))', 
             [uuid, name, this.constructGeoJsonPoint(x, y), this.owner_id]);
         return result.rowCount > 0;
     }
@@ -58,8 +62,9 @@ export class NodeRepository {
 
         try {
             await client.query('BEGIN');
-            await client.query('DELETE FROM node WHERE uuid = $1 AND owner = $2', [uuid, this.owner_id]);
-            await client.query('DELETE FROM data_point WHERE node = $1 AND (SELECT owner = $2 FROM node)', [uuid, this.owner_id]);
+            await client.query('DELETE FROM data_point WHERE node = $1 AND ((SELECT owner = $2 FROM node WHERE uuid = $1) OR (SELECT is_admin FROM public.user WHERE id = $2))', 
+                [uuid, this.owner_id]);
+            await client.query('DELETE FROM node WHERE uuid = $1 AND (owner = $2 OR (SELECT is_admin FROM public.user WHERE id = $2))', [uuid, this.owner_id]);
             await client.query('COMMIT');
         } catch (e) {
             await client.query('ROLLBACK')

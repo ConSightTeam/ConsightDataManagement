@@ -58,7 +58,7 @@ router.get('/:uuid/delete', async function(req: Request, res: Response) {
 
 router.post('/:uuid/delete', async function(req: Request, res: Response, next: NextFunction) {
   try {
-    (new NodeRepository((req.user as User).id)).deleteOne(req.params['uuid']);
+    await (new NodeRepository((req.user as User).id)).deleteOne(req.params['uuid']);
   } catch (e) {
     return next(e);
   }
