@@ -11,14 +11,13 @@ router.use(isLoggedIn);
 router.get('/:node_uuid', async function(req: Request, res: Response, next: NextFunction) {
     let node_uuid = req.params['node_uuid'];
     let page: number = parseInt(req.query['page-select'] as string) || 1;
-    let dao1 = new DataPointRepository();
-    let dao2 = new DataPointRepository();
-    let total_instances: number = parseInt(await dao2.getTotal(node_uuid));
+    let dao = new DataPointRepository();
+    let total_instances: number = parseInt(await dao.getTotal(node_uuid));
     let total_pages = Math.ceil(total_instances / 10);
 
     try {
         res.render('datapoint_list', { 
-            data_points: await dao1.getMutiples(page, node_uuid), current_page: page, 
+            data_points: await dao.getMutiples(page, node_uuid), current_page: page, 
             total_pages: total_pages ,node_uuid: node_uuid 
         });
     } catch (e) {
@@ -38,7 +37,7 @@ router.post('/:node_uuid/:id/delete', async function(req: Request, res: Response
     let id = req.params['id'];
 
     try {
-        (new DataPointRepository()).deleteOne(parseInt(id), (req.user as User).id);
+        await (new DataPointRepository()).deleteOne(parseInt(id), (req.user as User).id);
     } catch (e) {
         return next(e);
     }
