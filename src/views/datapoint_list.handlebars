@@ -1,35 +1,82 @@
-<div class="login-page">
-  <div class="login-box">
-    <div class="login-logo" style="margin-bottom: 30px">
-      <img src="../../images/ConsightLogo_TextUnder.png" alt="Consight Logo" width="40%" style="opacity: .8">
-    </div>
-      <!-- left column -->
-    <!-- general form elements -->
-    <div class="card card-primary card-outline">
-      <div class="card-body box-profile">
-      <h3 class="profile-username text-center">Data Points</h3>
-      
-      <!-- /.card-header -->
-      <!-- form start -->
-        <div class="card-body">
-          {{#unless data_points}}
-            <p>No data</p>
-          {{else}}
-            {{#each data_points}}
-                <p>ID: {{this.id}}</p>
-                <p>Data: {{ toJSON this.data }}</p>
-                <p>Inserted On: {{this.inserted_on}}</p>
-                <a href="/data_point/{{../node_uuid}}/{{this.id}}/delete">Delete</a>
-            {{/each}}
-          {{/unless}}
-          <form method="GET">
-            <p>Page <input type="number" id="page-select" name="page-select" value="{{current_page}}"> of {{total_pages}}</p>
-            </br><button type="submit" class="btn btn-block btn-primary">Go</button>
-          </form>
-      <a type="button" class="btn btn-block" href="../..">Back</a>
-    </div>
-    <!-- /.card -->
+<section class="content">
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Data Points</h1>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        <!-- Default box -->
+        <div class="card card-primary card-outline">
+          <div class="card-header">
+            <h5 class="m-0">Data Point List</h5>
+          </div>
+          <div class="card-body p-0">
+            {{#unless data_points}}
+              <p>No data</p>
+            {{else}}
+            <table class="table table-striped projects">
+              <thead>
+                <tr>
+                  <th style="width: 10%" class="text-center">
+                    ID
+                  </th>
+                  <th style="width: 60%">
+                    Data
+                  </th>
+                  <th style="width: 24%">
+                    Inserted On
+                  </th>
+                  <th style="width: 6%" class="text-center">
+                    Menu
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {{#each data_points}}
+                <tr>
+                  <td class="text-center">
+                    {{this.id}}
+                  </td>
+                  <td>
+                    {{ toJSON this.data }}
+                  </td>
+                  <td>
+                    {{this.inserted_on}}
+                  </td>
+                  <td>
+                    <a class="btn btn-danger text-right" href="/data_point/{{../node_uuid}}/{{this.id}}/delete">Delete</a>
+                  </td>
+                </tr>
+                {{/each}}
+                {{/unless}}
+              </tbody>
+            </table>
+          </div>
+          <!-- /.card-body -->
+          <div class="card-footer clearfix">
+            <div class="float-left">
+              <a type="button" class="btn btn-primary" href="../..">Back</a>
+            </div>
+            <div class="float-right">
+              <form method="GET">
+                <a>Page <input type="number" id="page-select" name="page-select" value="{{current_page}}"> of {{total_pages}}&emsp;</a>
+                <button type="submit" class="btn btn-primary">Go</button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- /.card -->
+      </div>
     </div>
   </div>
-</div>
-</div>
+</section>

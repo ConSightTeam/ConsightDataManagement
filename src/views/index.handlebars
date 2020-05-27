@@ -1,110 +1,92 @@
 <section class="content">
-  <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
             <h1>Home</h1>
           </div>
-          
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <a type="button" class="btn btn-success" href="/node"><i class="fas fa-plus"></i> Register New Node</a>
             </ol>
           </div>
         </div>
-      </div><!-- /.container-fluid -->
+      </div>
     </section>
-
-    <!-- Main content -->
-    
     <div class="content">
-        <div class="container-fluid">
-      <!-- Default box -->
-      <div class="card card-primary card-outline">
-        <div class="card-header">
-          <h5 class="m-0">Nodes</h5>
-        </div>
-        <div class="card-body p-0">
-          <table class="table table-striped projects">
+      <div class="container-fluid">
+        <div class="card card-primary card-outline">
+          <div class="card-header">
+            <h5 class="m-0">Nodes</h5>
+          </div>
+          <div class="card-body p-0">
+            <table class="table table-striped projects">
               <thead>
-                  <tr>
-                      <th style="width: 1%">
-                          #
-                      </th>
-                      <th style="width: 25%">
-                          UUID
-                      </th>
-                      <th style="width: 25%">
-                          Name
-                      </th>
-                      <th>
-                          Type
-                      </th>
-                      <th style="width: 8%" class="text-center">
-                          Status
-                      </th>
-                      <th style="width: 22%">
-                          Menu
-                      </th>
-                  </tr>
+                <tr>
+                  <th style="width: 1%">
+                    #
+                  </th>
+                  <th style="width: 25%">
+                    UUID
+                  </th>
+                  <th style="width: 25%">
+                    Name
+                  </th>
+                  <th>
+                    Type
+                  </th>
+                  <th style="width: 8%" class="text-center">
+                    Status
+                  </th>
+                  <th style="width: 22%">
+                    Menu
+                  </th>
+                </tr>
               </thead>
               <tbody>
-                  {{#each nodes}}
-                  <tr>
-                      <td>
-                          #
-                      </td>
-                      <td>
-                          <a>
-                              {{this.uuid}}
-                          </a>
-                      </td>
-                      <td>
-						 <a>
-                              {{this.name}}
-                          </a>
-                      </td>
-                      <td>
-                      {{#if this.location}}
-							<a>Static Node</a>
-                          {{#with this.location}}
-                          <br/>
-                          <small>
-                              [{{coordinates}}]
-                          </small>
-                          {{/with}}
-                      </td>
-                      {{else}}
-                      <a>Dynamic Node</a>
-                      {{/if}}
-                      <td class="project-state">
-                          <span class="badge badge-success">Success</span>
-                      </td>
-                      <td class="project-actions text-right">
-                          <div class="btn-group">
-                            <a class="btn btn-primary" href="./node/{{this.uuid}}/token">Generate Token</a>
-                            <a class="btn btn-primary" href="./data_point/{{this.uuid}}">Data Points</a>
-                            <a class="btn btn-warning" href="./node/{{this.uuid}}">Edit</a>
-                            <a class="btn btn-danger" href="./node/{{this.uuid}}/delete">Delete</a>
-                          </div>
-                      </td>
-                  </tr>
-{{/each}}
+                {{#each nodes}}
+                <tr>
+                  <td>
+                    #
+                  </td>
+                  <td>
+                    {{this.uuid}}
+                  </td>
+                  <td>
+                    {{this.name}}
+                  </td>
+                  <td>
+                    {{#if this.location}}
+                    <a>Static Node</a>
+                    {{#with this.location}}
+                    <br />
+                    <small>
+                      [{{coordinates}}]
+                    </small>
+                    {{/with}}
+                  </td>
+                  {{else}}
+                  <a>Dynamic Node</a>
+                  {{/if}}
+                  <td class="project-state">
+                    <span class="badge badge-success">Success</span>
+                  </td>
+                  <td class="project-actions text-right">
+                    <div class="btn-group">
+                      <a class="btn btn-primary" href="./node/{{this.uuid}}/token">Generate Token</a>
+                      <a class="btn btn-primary" href="./data_point/{{this.uuid}}">Data Points</a>
+                      <a class="btn btn-warning" href="./node/{{this.uuid}}">Edit</a>
+                      <a class="btn btn-danger" href="./node/{{this.uuid}}/delete">Delete</a>
+                    </div>
+                  </td>
+                </tr>
+                {{/each}}
               </tbody>
-          </table>
+            </table>
+          </div>
         </div>
-        <!-- /.card-body -->
       </div>
-      <!-- /.card -->
+    </div>
   </div>
-  </div>
-  </div>
-    
-    <!-- /.content -->
-
-  <!-- /.content-wrapper -->
-  </section>
-
+</section>
